@@ -33,11 +33,11 @@
         { nombre: "Pedro", nota: 4 }
         ];
      let aprobados = estudiantes.filter(estudiante => estudiante.nota >= 6);
-     ordenamiento = aprobados.sort((a, b) => b.nota - a.nota);
-     promedio = ordenamiento.reduce((acumulador, estudiante) => acumulador + estudiante.nota, 0 ) /ordenamiento.length;
-     document.getElementById("sol1").innerText = aprobados.map(estudiante => estudiante.nombre).join(", ");
-     document.getElementById("sol2").innerText = ordenamiento.map(estudiante => `${estudiante.nombre} (${estudiante.nota})`).join(", ");
-     document.getElementById("sol3").innerText = promedio.toFixed(2);
+    ordenamiento = aprobados.sort((a, b) => b.nota - a.nota);
+    promedio = ordenamiento.reduce((acumulador, estudiante) => acumulador + estudiante.nota, 0) / ordenamiento.length;
+    document.getElementById("solu1").innerText = aprobados.map(estudiante => estudiante.nombre).join(", ");
+    document.getElementById("solu2").innerText = ordenamiento.map(estudiante => `${estudiante.nombre} (${estudiante.nota})`).join(", ");
+    document.getElementById("solu3").innerText = promedio.toFixed(2);
 
     </script>
 </body>
