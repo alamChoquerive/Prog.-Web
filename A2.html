@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Ejercicio de Productos</title>
+</head>
+<body>
+    <script>
+        const productos = [
+            { nombre: "Notebook", precio: 1200, stock: 5 },
+            { nombre: "Mouse", precio: 25, stock: 0 },
+            { nombre: "Teclado", precio: 45, stock: 10 },
+            { nombre: "Monitor", precio: 350, stock: 3 },
+            { nombre: "Webcam", precio: 80, stock: 0 },
+            { nombre: "Auriculares", precio: 60, stock: 8 }
+        ];
+
+        // 1. Filtrar productos con stock > 0 y 2. Mapear para obtener solo nombre y precio
+        const productosDisponibles = productos
+            .filter(producto => producto.stock > 0)
+            .map(producto => ({
+                nombre: producto.nombre,
+                precio: producto.precio
+            }));
+
+        // 3. Mostrar el resultado por consola
+        console.log(productosDisponibles);
+    </script>
+</body>
+</html>

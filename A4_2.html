@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Validación de Empleados</title>
+</head>
+<body>
+    <script>
+        const empleados = [
+            { nombre: "Ana", departamento: "IT", salario: 850000, experiencia: 4 },
+            { nombre: "Luis", departamento: "Ventas", salario: 650000, experiencia: 3 },
+            { nombre: "Marta", departamento: "IT", salario: 900000, experiencia: 5 },
+            { nombre: "Pedro", departamento: "Marketing", salario: 600000, experiencia: 2 }
+        ];
+
+        const departamentosValidos = ["IT", "Ventas", "Marketing"];
+
+        const resultado = empleados.every(e => 
+            e.nombre && 
+            e.salario > 500000 && 
+            departamentosValidos.includes(e.departamento) && 
+            (e.departamento !== "IT" || e.experiencia >= 2)
+        );
+
+        console.log(resultado);
+    </script>
+</body>
+</html>

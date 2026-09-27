@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Introspección</title>
+</head>
+<body>
+    <script>
+        const empleado = {
+            nombre: "Ana",
+            edad: 35,
+            activo: true,
+            direccion: { ciudad: "Mendoza", pais: "Argentina" },
+            habilidades: ["JavaScript", "Java", "SQL"],
+            salario: 850000,
+            saludar() { return `Hola, soy ${this.nombre}`; }
+        };
+
+        // 1. Inspección usando entries, hasOwn y desestructuración
+        function inspeccionarObjeto(obj) {
+            console.log("========== INSPECCIÓN DEL OBJETO ==========");
+            for (let [k, v] of Object.entries(obj)) {
+                if (!Object.hasOwn(obj, k)) continue;
+                console.log(`Propiedad: ${k}`);
+                if (Array.isArray(v)) {
+                    console.log(`Tipo: array\nCantidad de elementos: ${v.length}`);
+                } else if (typeof v === "function") {
+                    console.log("Tipo: function\nMétodo detectado");
+                } else if (typeof v === "object" && v !== null) {
+                    console.log(`Tipo: object\nValor: [objeto]`);
+                } else {
+                    console.log(`Tipo: ${typeof v}\nValor: ${v}`);
+                }
+            }
+            console.log("============================================");
+        }
+
+        // 2. Búsqueda recursiva usando in, keys y reduce
+        function buscarPropiedad(obj, claveBuscada) {
+            if (!obj || typeof obj !== "object") return undefined;
+            if (claveBuscada in obj) return obj[claveBuscada];
+            
+            return Object.keys(obj).reduce((res, k) => 
+                res !== undefined ? res : buscarPropiedad(obj[k], claveBuscada), undefined
+            );
+        }
+
+        inspeccionarObjeto(empleado);
+        console.log("Búsqueda (ciudad):", buscarPropiedad(empleado, "ciudad"));
+    </script>
+</body>
+</html>

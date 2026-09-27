@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>IntersectionObservers0</title>
+<style>
+  body {
+    font-family: sans-serif;
+    background: #1e1e1e;
+    color: #d4d4d4;
+    padding: 40px;
+  }
+
+  h1 { text-align: center; }
+
+  .caja {
+    width: 80%;
+    max-width: 500px;
+    height: 150px;
+    margin: 300px auto; /* separación grande para forzar el scroll */
+    background: #333;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+
+    /* estado inicial: oculta */
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+
+  /* clase que agrega el observer cuando la caja entra en pantalla */
+  .caja.visible {
+    opacity: 1;
+    transform: translateY(0);
+    background: #4ec9b0;
+    color: #1e1e1e;
+  }
+</style>
+</head>
+<body>
+
+<h1>Hacé scroll para ver las cajas aparecer</h1>
+
+<div class="caja">Caja 1</div>
+<div class="caja">Caja 2</div>
+<div class="caja">Caja 3</div>
+<div class="caja">Caja 4</div>
+
+<script>
+  // 1. Seleccionamos todas las cajas
+  const cajas = document.querySelectorAll('.caja');
+
+  // 2. Creamos el observer y definimos qué hacer cuando cambia la intersección
+  const observer = new IntersectionObserver((entradas) => {
+    entradas.forEach(entrada => {
+      if (entrada.isIntersecting) {
+        // la caja entró en pantalla -> le agregamos la clase visible
+        entrada.target.classList.add('visible');
+
+        // opcional: dejamos de observarla, ya no hace falta
+        observer.unobserve(entrada.target);
+      }
+    });
+  }, {
+    threshold: 0.3 // se considera "visible" cuando el 30% de la caja entra en pantalla
+  });
+
+  // 3. Le decimos al observer que vigile cada caja
+  cajas.forEach(caja => observer.observe(caja));
+</script>
+
+</body>
+</html>

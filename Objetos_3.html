@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Práctica Completa Productos</title>
+</head>
+<body>
+    <script>
+        const productos = [
+            { nombre: "Notebook", categoria: "Computación", precio: 150000, stock: 4 },
+            { nombre: "Mouse", categoria: "Periféricos", precio: 25000, stock: 12 },
+            { nombre: "Teclado", categoria: "Periféricos", precio: 45000, stock: 3 },
+            { nombre: "Monitor", categoria: "Computación", precio: 120000, stock: 2 },
+            { nombre: "Auriculares", categoria: "Periféricos", precio: 60000, stock: 0 }
+        ];
+
+        // 1. Mostrar todos los productos
+        console.log("1. Todos:", productos);
+
+        // 2. Mostrar solamente los nombres
+        console.log("2. Nombres:", productos.map(p => p.nombre));
+
+        // 3. Precio mayor a 100.000
+        console.log("3. > 100.000:", productos.filter(p => p.precio > 100000));
+
+        // 4. Productos que tengan stock
+        console.log("4. Con stock:", productos.filter(p => p.stock > 0));
+
+        // 5. Calcular el valor total del stock (precio * stock)
+        const valorTotal = productos.reduce((acc, p) => acc + (p.precio * p.stock), 0);
+        console.log("5. Valor total stock:", valorTotal);
+
+        // 6. Producto más caro
+        const masCaro = productos.reduce((prev, curr) => curr.precio > prev.precio ? curr : productos[0]);
+        console.log("6. Más caro:", masCaro);
+
+        // 7. Producto más barato
+        const masBarato = productos.reduce((prev, curr) => curr.precio < prev.precio ? curr : productos[0]);
+        console.log("7. Más barato:", masBarato);
+
+        // 8. Categoría "Periféricos"
+        console.log("8. Periféricos:", productos.filter(p => p.categoria === "Periféricos"));
+
+        // 9. Nuevo arreglo con solo nombre y precio
+        console.log("9. Nombre y precio:", productos.map(p => ({ nombre: p.nombre, precio: p.precio })));
+
+        // 10. Ordenar por precio (menor a mayor)
+        console.log("10. Ordenados:", [...productos].sort((a, b) => a.precio - b.precio));
+
+        // 11. Cuántos tienen stock menor a 5
+        const stockMenor5 = productos.filter(p => p.stock < 5).length;
+        console.log("11. Stock < 5:", stockMenor5);
+
+        // 12. Precio promedio
+        const precioPromedio = productos.reduce((acc, p) => acc + p.precio, 0) / productos.length;
+        console.log("12. Promedio:", precioPromedio);
+
+        // 13. Agrupar por categoría
+        const porCategoria = productos.reduce((acc, p) => {
+            acc[p.categoria] = acc[p.categoria] || [];
+            acc[p.categoria].push(p);
+            return acc;
+        }, {});
+        console.log("13. Agrupados:", porCategoria);
+    </script>
+</body>
+</html>

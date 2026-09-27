@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Práctica Observers1</title>
+<style>
+  body { font-family: monospace; background:#1e1e1e; color:#d4d4d4; padding:20px; }
+  pre { white-space: pre-wrap; }
+</style>
+</head>
+<body>
+<pre id="out"></pre>
+
+<script>
+const out = document.getElementById('out');
+const log = (...args) => out.textContent += args.join(' ') + '\n';
+
+// ---------- Subject ----------
+class Subject {
+  constructor() {
+    this._observers = []; // guarda las funciones/objetos suscriptos
+  }
+
+  subscribe(observer) {
+    this._observers.push(observer);
+  }
+
+  unsubscribe(observer) {
+    this._observers = this._observers.filter(obs => obs !== observer);
+  }
+
+  notify(data) {
+    // avisa a todos los observers pasándoles el dato
+    this._observers.forEach(observer => observer(data));
+  }
+
+  get observerCount() {
+    return this._observers.length;
+  }
+}
+
+// ---------- Observers de ejemplo ----------
+// Cada observer es una función que reacciona al notify()
+const observer1 = data => log('Observer 1 recibió:', data);
+const observer2 = data => log('Observer 2 recibió:', data);
+const observer3 = data => log('Observer 3 recibió:', data);
+
+// ---------- Uso ----------
+const subject = new Subject();
+
+subject.subscribe(observer1);
+subject.subscribe(observer2);
+subject.subscribe(observer3);
+
+log('Cantidad de observers:', subject.observerCount);
+
+log('\n--- notify("Hola!") ---');
+subject.notify('Hola!');
+
+log('\n--- unsubscribe(observer1) ---');
+subject.unsubscribe(observer1);
+log('Cantidad de observers:', subject.observerCount);
+
+log('\n--- notify("Segundo aviso") ---');
+subject.notify('Segundo aviso');
+</script>
+</body>
+</html>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Práctica Objetos</title>
+</head>
+<body>
+    <script>
+        const alumnos = [
+            { nombre: "Ana", edad: 20, notas: [8, 9, 7] },
+            { nombre: "Pedro", edad: 22, notas: [6, 5, 7] },
+            { nombre: "Luis", edad: 19, notas: [9, 10, 8] }
+        ];
+
+        // 1. Calcular promedio y 2. Filtrar aprobados (promedio >= 6)
+        const aprobados = alumnos
+            .map(a => ({
+                nombre: a.nombre,
+                promedio: a.notas.reduce((s, n) => s + n, 0) / a.notas.length
+            }))
+            .filter(a => a.promedio >= 6);
+
+        console.log(aprobados);
+    </script>
+</body>
+</html>

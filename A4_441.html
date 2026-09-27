@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>a4_441 - Objetos en JavaScript</title>
+<style>
+  body { font-family: monospace; background:#1e1e1e; color:#d4d4d4; padding:20px; }
+  pre { white-space: pre-wrap; }
+  h2 { color:#4ec9b0; }
+</style>
+</head>
+<body>
+<pre id="out"></pre>
+
+<script>
+const out = document.getElementById('out');
+const log = (...args) => out.textContent += args.join(' ') + '\n';
+
+// ---------- 1) Libro ----------
+log('--- Libro ---');
+const libro = {
+  titulo: 'Cien años de soledad',
+  autor: 'Gabriel García Márquez',
+  anio: 1967,
+  descripcion() {
+    return `"${this.titulo}" de ${this.autor} (${this.anio})`;
+  }
+};
+log(libro.descripcion());
+
+// ---------- 2) Cuenta Bancaria ----------
+log('\n--- Cuenta Bancaria ---');
+const cuentaBancaria = {
+  saldo: 1000,
+  titular: 'Alam',
+  depositar(monto) {
+    this.saldo += monto;
+    return this.saldo;
+  },
+  retirar(monto) {
+    if (monto > this.saldo) return 'Fondos insuficientes';
+    this.saldo -= monto;
+    return this.saldo;
+  }
+};
+log('Depósito 500 ->', cuentaBancaria.depositar(500));
+log('Retiro 300 ->', cuentaBancaria.retirar(300));
+log('Retiro 5000 ->', cuentaBancaria.retirar(5000));
+
+// ---------- 3) Rectángulo ----------
+log('\n--- Rectángulo ---');
+const rectangulo = {
+  ancho: 4,
+  alto: 7,
+  area() { return this.ancho * this.alto; },
+  perimetro() { return 2 * (this.ancho + this.alto); }
+};
+log('Área ->', rectangulo.area());
+log('Perímetro ->', rectangulo.perimetro());
+
+// ---------- 4) Inventario ----------
+log('\n--- Inventario ---');
+const inventario = {
+  teclado: { precio: 50000, stock: 10 },
+  mouse: { precio: 25000, stock: 20 },
+  monitor: { precio: 180000, stock: 5 }
+};
+
+function valorTotal(inv) {
+  return Object.values(inv).reduce((tot, p) => tot + p.precio * p.stock, 0);
+}
+
+function productoMasCaro(inv) {
+  return Object.entries(inv).reduce((max, [nombre, p]) =>
+    p.precio > max.precio ? { nombre, ...p } : max,
+    { nombre: null, precio: -Infinity });
+}
+
+function sinStock(inv) {
+  return Object.entries(inv).filter(([, p]) => p.stock === 0);
+}
+
+function incrementarPrecio(inv, porcentaje) {
+  const nuevo = {};
+  for (const [nombre, p] of Object.entries(inv)) {
+    nuevo[nombre] = { ...p, precio: Math.round(p.precio * (1 + porcentaje / 100)) };
+  }
+  return nuevo;
+}
+
+log('Valor total ->', valorTotal(inventario));
+log('Más caro ->', JSON.stringify(productoMasCaro(inventario)));
+log('Sin stock ->', JSON.stringify(sinStock(inventario)));
+log('Precios +15% ->', JSON.stringify(incrementarPrecio(inventario, 15)));
+
+// ---------- 5) deepEqual ----------
+log('\n--- deepEqual ---');
+function deepEqual(obj1, obj2) {
+  if (obj1 === obj2) return true;
+  if (typeof obj1 !== 'object' || typeof obj2 !== 'object' || obj1 === null || obj2 === null) {
+    return false;
+  }
+  const keys1 = Object.keys(obj1);
+  const keys2 = Object.keys(obj2);
+  if (keys1.length !== keys2.length) return false;
+  return keys1.every(key => deepEqual(obj1[key], obj2[key]));
+}
+
+const a = { x: 10, y: { z: 20 } };
+const b = { x: 10, y: { z: 20 } };
+const c = { x: 10, y: { z: 30 } };
+log('deepEqual(a,b) ->', deepEqual(a, b));
+log('deepEqual(a,c) ->', deepEqual(a, c));
+
+// ---------- 6) merge ----------
+log('\n--- merge ---');
+function merge(obj1, obj2) {
+  const resultado = { ...obj1 };
+  for (const key in obj2) {
+    if (
+      typeof obj2[key] === 'object' && obj2[key] !== null &&
+      typeof resultado[key] === 'object' && resultado[key] !== null
+    ) {
+      resultado[key] = merge(resultado[key], obj2[key]);
+    } else {
+      resultado[key] = obj2[key];
+    }
+  }
+  return resultado;
+}
+
+const obj1 = { usuario: { nombre: 'Ana', edad: 20 }, activo: true };
+const obj2 = { usuario: { ciudad: 'Mendoza' } };
+log(JSON.stringify(merge(obj1, obj2), null, 2));
+</script>
+</body>
+</html>
