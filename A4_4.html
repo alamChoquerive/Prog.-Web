@@ -14,24 +14,23 @@
     </div>
 
     <script>
-        const numeros = [1, 1, 2, 3, 3, 4, 4, 4, 5, 5, 6];
+        // Array de prueba
+        const numeros = [1,1,2,3,3,4,4,4,5,5,6];
 
-        // Contar la frecuencia de cada número
-        const frecuencia = numeros.reduce((acc, num) => {
-            acc[num] = (acc[num] || 0) + 1;
+        // Conteo de frecuencias
+        const frecuencias = numeros.reduce((acc, n) => {
+            acc[n] = (acc[n] || 0) + 1;
             return acc;
         }, {});
 
-        // Encontrar el número con la mayor frecuencia
+        // Encontrar el número con mayor frecuencia
         let masRepetido = null;
         let max = -Infinity;
-        for(const [valor, veces] of Object.entries(frecuencia)) {
-            if (veces > max) {
-                max = veces;
-                masRepetido = number(valor);
-            }
+        for (const [valor, veces] of Object.entries(frecuencias)) {
+            if (veces > max) { max = veces; masRepetido = Number(valor); }
         }
-        document.getElementById('respuesta').textContent = `${masRepetido} (repetido ${max} veces)`;
+
+        document.getElementById('respuesta').textContent = `${masRepetido} (${max} veces)`;
     </script>
 </body>
 </html>
